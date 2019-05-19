@@ -1,0 +1,78 @@
+ROS PACK firmware archive payload extractor
+Version 0.6
+(c) Copyright 2015 TJ <hacker@iam.tj>
+Licensed on the terms of the GNU General Public License version 2
+
+Filename:          ../SRW2xxG4_FW_1.2.3.0_2010-06-15.ros
+File length:       3333453 (0x32dd4d)
+ARC Magic:         LS23
+ARC Index:         1.01
+Header    version: 1
+           length: 48
+Payload
+           length: 3333405 (0x32dd1d)
+         checksum: 424928470 (0x1953e4d6)
+Link Time:         13:35:38
+Link Date:         2008-11-25
+Signature:         PACK
+Dir Entries:       5
+
+Entry:               0
+Filename:            CLI_FILE2
+Length:              0x1a0ee (106734)
+Payload Offset:      0xd0 (208)
+Next Offset:         0x1a1be
+  Sub-header found
+  Magic Index:         2.00
+  Uncompressed length: 557300
+  Link Time:           13:35:33
+  Link Date:           2008-11-25 (Swapping big-endian year value, unlikely to be 55303)
+Data type:           LZMA compressed
+Extracted CLI_FILE2 from offset 240 (106702 bytes)
+
+Entry:               1
+Filename:            DELSCRF2
+Length:              0x3ba64 (244324)
+Payload Offset:      0x1a1be (106942)
+Next Offset:         0x55c22
+  Sub-header found
+  Magic Index:         2.00
+  Uncompressed length: 977974
+  Link Time:           13:35:35
+  Link Date:           2008-11-25 (Swapping big-endian year value, unlikely to be 55303)
+Data type:           LZMA compressed
+Extracted DELSCRF2 from offset 106974 (244292 bytes)
+
+Entry:               2
+Filename:            EWS_FILE
+Length:              0x65110 (413968)
+Payload Offset:      0x55c22 (351266)
+Next Offset:         0xbad32
+Data type:           7z archive
+Extracted EWS_FILE from offset 351266 (413968 bytes)
+
+Entry:               3
+Filename:            DATETIME_C
+Length:              0xa0 (160)
+Payload Offset:      0xbad32 (765234)
+Next Offset:         0xbadd2
+Extracted DATETIME_C from offset 765234 (160 bytes)
+
+Entry:               4
+Filename:            RSCODE1
+Length:              0x272f7b (2568059)
+Payload Offset:      0xbadd2 (765394)
+Next Offset:         0x32dd4d
+  Sub-header found
+  Magic Index:         2.00
+  Uncompressed length: 9527824
+  Link Time:           13:35:04
+  Link Date:           2008-11-25 (Swapping big-endian year value, unlikely to be 55303)
+Data type:           LZMA compressed
+Extracted RSCODE1 from offset 765426 (2568027 bytes)
+
+Payload      length: 3333405 (0x32dd1d)
+Payload   extracted: 3333405 (0x32dd1d)
+Payload    checksum: 424928470 (0x1953e4d6)
+Calculated checksum: 424928470 (0x1953e4d6)
+

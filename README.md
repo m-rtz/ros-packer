@@ -1,0 +1,1 @@
+This is the place where my programming project, the lovely ros_packer will grow up. Fingers crosed!

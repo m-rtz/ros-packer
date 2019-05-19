@@ -1,0 +1,4 @@
+char OGCFG_link_time[] = " 12:19:31";
+char OGCFG_link_date[] = " 08-Sep-2014";
+char OGCFG_link_version[] = "1.1.0.21";
+char OGCFG_link_arc_magic[] = "BL01";

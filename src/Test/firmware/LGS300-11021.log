@@ -1,0 +1,156 @@
+ROS PACK firmware archive payload extractor
+Version 0.6
+(c) Copyright 2015 TJ <hacker@iam.tj>
+Licensed on the terms of the GNU General Public License version 2
+
+Filename:          ../LGS300-11021.ros
+File length:       7065037 (0x6bcdcd)
+ARC Magic:         BL01
+ARC Index:         2.00
+Header    version: 2
+           length: 80
+         checksum: 4294963913 (0xfffff2c9)
+       calculated: 4294963913 (0xfffff2c9)
+Payload (outer)
+           length: 7064989 (0x6bcd9d)
+         checksum: 900615257 (0x35ae4c59)
+Payload (inner)
+           length: 7064957 (0x6bcd7d)
+         checksum: 900613878 (0x35ae46f6)
+Firmware version:  1.1.0.21
+Link Time:         12:20:38
+Link Date:         2014-09-08
+Signature:         PACK
+Dir Entries:       12
+
+Entry:               0
+Filename:            VER_COMP
+Length:              0x3a8 (936)
+Payload Offset:      0x1d0 (464)
+Next Offset:         0x578
+Extracted VER_COMP from offset 464 (936 bytes)
+
+Entry:               1
+Filename:            DATETIME_C
+Length:              0xa1 (161)
+Payload Offset:      0x578 (1400)
+Next Offset:         0x619
+Extracted DATETIME_C from offset 1400 (161 bytes)
+
+Entry:               2
+Filename:            RSCODE
+Length:              0x42d232 (4379186)
+Payload Offset:      0x619 (1561)
+Next Offset:         0x42d84b
+  Sub-header found
+  Magic Index:         2.00
+  Uncompressed length: 17915264
+  Link Time:           12:19:48
+  Link Date:           2014-09-08 (Swapping big-endian year value, unlikely to be 56839)
+Data type:           LZMA compressed
+Extracted RSCODE from offset 1593 (4379154 bytes)
+
+Entry:               3
+Filename:            DYNAMIC
+Length:              0x1 (1)
+Payload Offset:      0x42d84b (4380747)
+Next Offset:         0x42d84c
+Extracted DYNAMIC from offset 4380747 (1 bytes)
+
+Entry:               4
+Filename:            CLI_FILE
+Length:              0x2a7a8 (173992)
+Payload Offset:      0x42d84c (4380748)
+Next Offset:         0x457ff4
+  Sub-header found
+  Magic Index:         2.00
+  Uncompressed length: 918750
+  Link Time:           12:20:26
+  Link Date:           2014-09-08 (Swapping big-endian year value, unlikely to be 56839)
+Data type:           LZMA compressed
+Extracted CLI_FILE from offset 4380780 (173960 bytes)
+
+Entry:               5
+Filename:            DELSCRF
+Length:              0xb0cb6 (724150)
+Payload Offset:      0x457ff4 (4554740)
+Next Offset:         0x508caa
+  Sub-header found
+  Magic Index:         2.00
+  Uncompressed length: 3128456
+  Link Time:           12:20:28
+  Link Date:           2014-09-08 (Swapping big-endian year value, unlikely to be 56839)
+Data type:           LZMA compressed
+Extracted DELSCRF from offset 4554772 (724118 bytes)
+
+Entry:               6
+Filename:            EWS_FILE
+Length:              0x1a5eb7 (1728183)
+Payload Offset:      0x508caa (5278890)
+Next Offset:         0x6aeb61
+  Sub-header found
+  Magic Index:         2.00
+  Uncompressed length: 1797069
+  Link Time:           12:20:34
+  Link Date:           2014-09-08 (Swapping big-endian year value, unlikely to be 56839)
+Data type:           LZMA compressed
+Extracted EWS_FILE from offset 5278922 (1728151 bytes)
+
+Entry:               7
+Filename:            UPNP_FILE
+Length:              0x5a26 (23078)
+Payload Offset:      0x6aeb61 (7007073)
+Next Offset:         0x6b4587
+  Sub-header found
+  Magic Index:         2.00
+  Uncompressed length: 87648
+  Link Time:           12:20:37
+  Link Date:           2014-09-08 (Swapping big-endian year value, unlikely to be 56839)
+Data type:           LZMA compressed
+Extracted UPNP_FILE from offset 7007105 (23046 bytes)
+
+Entry:               8
+Filename:            HPRM
+Length:              0x16e7 (5863)
+Payload Offset:      0x6b4587 (7030151)
+Next Offset:         0x6b5c6e
+  Sub-header found
+  Magic Index:         2.00
+  Uncompressed length: 26080
+  Link Time:           12:20:37
+  Link Date:           2014-09-08 (Swapping big-endian year value, unlikely to be 56839)
+Data type:           LZMA compressed
+Extracted HPRM from offset 7030183 (5831 bytes)
+
+Entry:               9
+Filename:            NONPOE_SKU
+Length:              0x2d (45)
+Payload Offset:      0x6b5c6e (7036014)
+Next Offset:         0x6b5c9b
+Extracted NONPOE_SKU from offset 7036014 (45 bytes)
+
+Entry:               10
+Filename:            PoE_SKU
+Length:              0x5a (90)
+Payload Offset:      0x6b5c9b (7036059)
+Next Offset:         0x6b5cf5
+Extracted PoE_SKU from offset 7036059 (90 bytes)
+
+Entry:               11
+Filename:            CLI_LEG
+Length:              0x70d8 (28888)
+Payload Offset:      0x6b5cf5 (7036149)
+Next Offset:         0x6bcdcd
+  Sub-header found
+  Magic Index:         2.00
+  Uncompressed length: 131448
+  Link Time:           12:20:37
+  Link Date:           2014-09-08 (Swapping big-endian year value, unlikely to be 56839)
+Data type:           LZMA compressed
+Extracted CLI_LEG from offset 7036181 (28856 bytes)
+
+Payload      length: 7064957 (0x6bcd7d)
+Payload   extracted: 7064957 (0x6bcd7d)
+Payload    checksum: 900613878 (0x35ae46f6)
+Calculated checksum: 900613878 (0x35ae46f6)
+

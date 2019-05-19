@@ -1,0 +1,3 @@
+;Version 65.0
+PoE.supported=(BOOLEAN)TRUE
+PoE.poe_hw_type_value=(ENUM)poe_plus_support

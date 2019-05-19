@@ -1,0 +1,4 @@
+char OGCFG_link_time[] = " 11:44:49";
+char OGCFG_link_date[] = " 20-Mar-2007";
+char OGCFG_link_version[] = "1.2.2.16";
+char OGCFG_link_arc_magic[] = "LS23";

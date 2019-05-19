@@ -1,0 +1,11 @@
+mirror option -> originales ros an geben für unknown felder und verion
+sonst parameter für version
+format string logging.error('Bad file for lief/elf analysis {}. {}'.format(file_object.get_uid(), error))
+modulnamen klein
+funktionen in camelcase
+precommit pylint flake8
+args als argument für funktionen
+listen: nicht unbedingt sortiert (nachschlagen)
+data classes für immutable vars
+statt glob list_dir oder iterdir
+logging statt prints (import logging)

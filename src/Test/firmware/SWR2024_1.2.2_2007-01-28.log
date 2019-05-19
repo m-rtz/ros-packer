@@ -1,0 +1,91 @@
+ROS PACK firmware archive payload extractor
+Version 0.6
+(c) Copyright 2015 TJ <hacker@iam.tj>
+Licensed on the terms of the GNU General Public License version 2
+
+Filename:          ../SRW2024_1.2.2_2007-01-28.ros
+File length:       3466773 (0x34e615)
+ARC Magic:         RNTP
+ARC Index:         1.01
+Header    version: 1
+           length: 48
+Payload
+           length: 3466725 (0x34e5e5)
+         checksum: 441991496 (0x1a584148)
+Link Time:         13:50:07
+Link Date:         2007-01-28
+Signature:         PACK
+Dir Entries:       6
+
+Entry:               0
+Filename:            CLI_FILE
+Length:              0x19af7 (105207)
+Payload Offset:      0xf0 (240)
+Next Offset:         0x19be7
+  Sub-header found
+  Magic Index:         2.00
+  Uncompressed length: 545923
+  Link Time:           13:50:00
+  Link Date:           2007-01-28 (Swapping big-endian year value, unlikely to be 55047)
+Data type:           LZMA compressed
+Extracted CLI_FILE from offset 272 (105175 bytes)
+
+Entry:               1
+Filename:            DELSCRF
+Length:              0x559b2 (350642)
+Payload Offset:      0x19be7 (105447)
+Next Offset:         0x6f599
+  Sub-header found
+  Magic Index:         2.00
+  Uncompressed length: 1448311
+  Link Time:           13:50:02
+  Link Date:           2007-01-28 (Swapping big-endian year value, unlikely to be 55047)
+Data type:           LZMA compressed
+Extracted DELSCRF from offset 105479 (350610 bytes)
+
+Entry:               2
+Filename:            EWS_FILE
+Length:              0x64eb1 (413361)
+Payload Offset:      0x6f599 (456089)
+Next Offset:         0xd444a
+Data type:           7z archive
+Extracted EWS_FILE from offset 456089 (413361 bytes)
+
+Entry:               3
+Filename:            UPNP_FILE
+Length:              0x20f7 (8439)
+Payload Offset:      0xd444a (869450)
+Next Offset:         0xd6541
+  Sub-header found
+  Magic Index:         2.00
+  Uncompressed length: 27900
+  Link Time:           13:50:07
+  Link Date:           2007-01-28 (Swapping big-endian year value, unlikely to be 55047)
+Data type:           LZMA compressed
+Extracted UPNP_FILE from offset 869482 (8407 bytes)
+
+Entry:               4
+Filename:            DATETIME_C
+Length:              0xa1 (161)
+Payload Offset:      0xd6541 (877889)
+Next Offset:         0xd65e2
+Extracted DATETIME_C from offset 877889 (161 bytes)
+
+Entry:               5
+Filename:            RSCODE
+Length:              0x278033 (2588723)
+Payload Offset:      0xd65e2 (878050)
+Next Offset:         0x34e615
+  Sub-header found
+  Magic Index:         2.00
+  Uncompressed length: 9575680
+  Link Time:           13:49:22
+  Link Date:           2007-01-28 (Swapping big-endian year value, unlikely to be 55047)
+Data type:           LZMA compressed
+Extracted RSCODE from offset 878082 (2588691 bytes)
+
+Payload      length: 3466725 (0x34e5e5)
+Payload   extracted: 3466725 (0x34e5e5)
+Payload    checksum: 441991496 (0x1a584148)
+Calculated checksum: 441991496 (0x1a584148)
+

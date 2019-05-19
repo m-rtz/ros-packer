@@ -1,0 +1,4 @@
+char OGCFG_link_time[] = " 13:48:36";
+char OGCFG_link_date[] = " 28-Jan-2007";
+char OGCFG_link_version[] = "1.2.2.22";
+char OGCFG_link_arc_magic[] = "RNTP";
