@@ -1,4 +1,4 @@
-mirror option -> originales ros an geben für unknown felder und verion
+mirror option -> Payload Reihenfolge beachten
 sonst parameter für version
 format string logging.error('Bad file for lief/elf analysis {}. {}'.format(file_object.get_uid(), error))
 modulnamen klein
@@ -9,3 +9,4 @@ listen: nicht unbedingt sortiert (nachschlagen)
 data classes für immutable vars
 statt glob list_dir oder iterdir
 logging statt prints (import logging)
+shebang

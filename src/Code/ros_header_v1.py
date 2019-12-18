@@ -17,7 +17,7 @@ class ros_header_v1:
     """
     HEADER_SIZE = 48
     SIGNATURE = struct.pack('4s', 'PACK'.encode('ascii'))  # 4 Bytes
-    ARC_INDEX = struct.pack('4s', '1.01'.encode('ascii'))
+    ARC_INDEX = struct.pack('4s', '1.01'.encode('ascii'))  # 4 Bytes
     ARC_MAGIC = struct.pack('4s', 'LS23'.encode('ascii'))  # 4 Bytes
     UNKNOWN1 = struct.pack('<I', 0)  # 4 Bytes
     UNKNOWN2 = struct.pack('<III', 0, 0, 0)  # 12 Bytes

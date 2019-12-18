@@ -23,12 +23,10 @@ class ros_header_v2(ros_header_v1):
 
     HEADER_SIZE = 80
     UNKNOWN_TIME = 0
-    SIGNATURE = struct.pack('4s', 'PACK'.encode('ascii'))  # 4 Bytes
     ARC_INDEX = struct.pack('4s', '2.00'.encode('ascii'))
     ARC_MAGIC = struct.pack('4s', 'BL01'.encode('ascii'))  # 4 Bytes
     HEADER_LENGTH = struct.pack('<I', HEADER_SIZE)
     HEADER_CHECKSUM = struct.pack('<I', 0)  # 4 Bytes
-    UNKNOWN1 = struct.pack('<I', 0)  # 4 Bytes
     UNKNOWN2 = struct.pack('<I', 0)  # 4 Bytes
     UNKNOWN3 = struct.pack('<II', 0, 0)  # 8 Bytes
     FIRMWARE_VERSION = struct.pack('16s', 'Firmware'.encode('ascii'))  # 16 Bytes
@@ -47,21 +45,6 @@ class ros_header_v2(ros_header_v1):
         self.payload_checksum1 = struct.pack('<I', 0)
         self.payload_checksum1 = struct.pack('<I', sum(self.get_bytes())) # 4 Bytes
         self.header_checksum = struct.pack('<I', 4294967295 - sum(self.get_bytes())) # 4 Bytes (0xFFFFFFFF - Checksum over this header)
-
-    def set_timestamp(self, time):
-        self.time_stamp = time
-        return True
-
-    def set_arc_magic(self, arc_magic):
-        self.ARC_MAGIC = arc_magic
-
-    def set_unknown1(self, unknown1):
-        self.UNKOWN1 = unknown1
-        return True
-
-    def set_unknown2(self, unknown2):
-        self.UNKNOWN2 = unknown2
-        return True
 
     def set_unknown3(self, unknown3):
         self.UNKNOWN3 = unknown3

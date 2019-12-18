@@ -1,6 +1,7 @@
 import struct
+from ros_header_v1 import ros_header_v1
 
-class ros_lzma_subheader:
+class ros_lzma_subheader(ros_header_v1):
     """Structure of the header of each payload file. All little endian
 
     0           1           2           3           4
@@ -12,8 +13,8 @@ class ros_lzma_subheader:
     """
 
     HEADER_SIZE = 32
-    MAGIC = struct.pack('4s', 'BL01'.encode('ascii'))  # 4 Bytes
-    ARC_MAGIC = struct.pack('4s', '2.00'.encode('ascii'))  # 4 Bytes
+    ARC_MAGIC = struct.pack('4s', 'BL01'.encode('ascii'))  # 4 Bytes
+    ARC_INDEX = struct.pack('4s', '2.00'.encode('ascii'))  # 4 Bytes
     UNKNOWN_TIME = 0
     UNKNOWN1 = struct.pack('<I', 0)  # 4 Byte
     UNKNOWN2 = struct.pack('<II', 0, 0)  # 8 Bytes
@@ -27,15 +28,6 @@ class ros_lzma_subheader:
     def set_time(self, time):
         self.time_stamp = time
 
-    def set_unknown1(self, unknown1):
-        self.UNKNOWN1 = unknown1
-
-    def set_unknown2(self, unknown2):
-        self.UNKNOWN2 = unknown2
-
-    def set_magic(self, magic):
-        self.MAGIC = magic
-
     def get_bytes(self):
-        return self.MAGIC + self.ARC_MAGIC + self.time_stamp + self.UNKNOWN1 + self.size + self.UNKNOWN2
+        return self.ARC_MAGIC + self.ARC_INDEX + self.time_stamp + self.UNKNOWN1 + self.size + self.UNKNOWN2
 
