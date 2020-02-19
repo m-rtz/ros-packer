@@ -12,8 +12,9 @@ from ros_header_v2 import ros_header_v2
 
 
 def check_input(args):
-    """Checking on the arguments and returns False if: DIR_TO_PACK does not exists, is no Directory or is empty; OUTPUT already exists;
-    MIRROR already exists or is no file; VERSION and MIRROR is set or neither."""
+    """Checking arguments and returns False if: DIR_TO_PACK does not exists, is no directory, is empty, OUTPUT
+    already exists, MIRROR already exists or is no file; VERSION and MIRROR is set or neither."""
+
     if args.verbosity:
         print(
             '\n\t***Start checking the Arguments***\ngiven directory: {}\ngiven output {}\nmirror file: {}\nselected header version: {}\n'.format(
@@ -35,23 +36,18 @@ def check_input(args):
         print('Error: {} already exists!'.format(args.output.name))
         return False
 
-    if not args.mirror is None:
+    if args.mirror is not None:
         if not args.mirror.exists():
             print('Error: {} does not exists!'.format(args.mirror))
+            return False
 
         if not args.mirror.is_file():
             print('Error: {} is not a file!'.format(args.mirror))
-
-    if not args.version is None:
-        if args.version == 1:
-            print('Error: Version {} is an invalid choice!'.format(args.version))
             return False
 
     if args.mirror is None and args.version is None:
         print('Error: No Headerversion and no Mirror file!')
-
-    if args.mirror is not None and args.version is not None:
-        print('Error: Headerversion and Mirror file are set!')
+        return False
 
     return True
 
