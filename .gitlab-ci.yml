@@ -32,7 +32,6 @@ test:
 
 run:
   script:
-    - pip install dist/*
     # run the command here
     - mkdir empty_dir
     - python -m unittest
