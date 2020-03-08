@@ -23,11 +23,11 @@ class TestInputParameters(unittest.TestCase):
 
         # Test mirror does not exists
         return_val = subprocess.call(['python', 'ros_packer.py', '-m no_mirror'])
-        self.assertEqual(return_val, 1)
+        self.assertEqual(return_val, 2)
 
         # Test mirror is a Directory
         return_val = subprocess.call(['python', 'ros_packer.py', '-m empty_dir'])
-        self.assertEqual(return_val, 1)
+        self.assertEqual(return_val, 2)
 
 
         # Test output already exists
