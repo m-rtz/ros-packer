@@ -29,7 +29,6 @@ class TestInputParameters(unittest.TestCase):
         return_val = subprocess.call(['python', 'ros_packer.py', '-m empty_dir'])
         self.assertEqual(return_val, 2)
 
-
         # Test output already exists
         return_val = subprocess.call(['python', 'ros_packer.py', '-V 1', '-o file.ros', 'DIR_TO_PACK'])
         self.assertEqual(return_val, 1)
