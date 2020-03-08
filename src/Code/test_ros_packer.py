@@ -4,7 +4,6 @@ import subprocess
 
 class TestInputParameters(unittest.TestCase):
     def test_inputs(self):
-
         # Test none input
         return_val = subprocess.call(['python', 'ros_packer.py'])
         self.assertEqual(return_val, 2)
@@ -36,3 +35,10 @@ class TestInputParameters(unittest.TestCase):
         # Test no mirror, no version, but DIR_TO_PACK
         return_val = subprocess.call(['python', 'ros_packer.py', 'DIR_TO_PACK'])
         self.assertEqual(return_val, 1)
+
+
+class TestROSStructure(unittest.TestCase):
+    def test_ros_structure(self):
+        #
+        return_val = subprocess.call(['python', 'ros_packer.py', '-m ros_packer', 'empty_dir'])
+        self.assertEqual(return_val, 2)
