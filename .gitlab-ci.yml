@@ -27,6 +27,7 @@ before_script:
 run:
   script:
     # run the command here
+    - ls -la
     - mkdir empty_dir
     - python -m unittest
       
