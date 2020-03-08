@@ -29,5 +29,5 @@ run:
     # run the command here
     - cd ./src/Code
     - mkdir empty_dir
-    - python -m unittest
+    - python -m unittest -v
       

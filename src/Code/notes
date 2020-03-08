@@ -10,3 +10,4 @@ data classes für immutable vars
 statt glob list_dir oder iterdir
 logging statt prints (import logging)
 shebang
+pack_ros in neue datei auslagern?

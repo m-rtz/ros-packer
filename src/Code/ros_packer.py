@@ -69,10 +69,6 @@ def check_ros(args):
 def analize_ros(args, ros_binary):
     """Determines the Headerversion of a ROS-file and returns unknowns and timestamps."""
 
-    if not ros_binary[24:28] == ros_header_v1.SIGNATURE:
-        print('ROS-File does not have "PACK" at 0x18')
-        return None
-
     if ros_binary[4:8] == ros_header_v1.ARC_INDEX:
         if args.verbosity:
             print('looks like Header version 1')
@@ -120,15 +116,6 @@ def analize_lzma_subheader(args, name, tmp_header):
             tmp_header.set_unknown2(binary[offset + 24:offset + 32])
 
     return tmp_header
-
-
-def check_dir(args):
-    """Checking if the given directory looks like a packable location"""
-
-    if args.verbosity:
-        print('\n\t***Start checking the Directory***\nGiven Dir: {}\nFiles are: '.format(args.DIR_TO_PACK))
-
-    return True
 
 
 def pack_ros(args):
@@ -274,8 +261,6 @@ def main():
 
     if not check_input(args):
         return 1
-    if not check_dir(args):
-        return 2
 
     if args.mirror is not None:
         if not check_ros(args):

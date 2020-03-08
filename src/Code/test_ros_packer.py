@@ -1,6 +1,8 @@
+import argparse
 import unittest
 import subprocess
-
+import pathlib
+import ros_packer
 
 class TestInputParameters(unittest.TestCase):
     def test_inputs(self):
@@ -39,6 +41,7 @@ class TestInputParameters(unittest.TestCase):
 
 class TestROSStructure(unittest.TestCase):
     def test_ros_structure(self):
-        #
-        return_val = subprocess.call(['python', 'ros_packer.py', '-m ros_packer', 'empty_dir'])
-        self.assertEqual(return_val, 2)
+        # Test mirror file is a ros file
+        args = argparse.Namespace(DIR_TO_PACK=pathlib.WindowsPath('../Test/firmware/LGS300-11021'), mirror=pathlib.WindowsPath('../Code/ros_packer.py'), output=pathlib.WindowsPath('container.ros'), verbosity=False, version=None)
+        return_val = ros_packer.check_ros(args)
+        self.assertFalse(return_val)
