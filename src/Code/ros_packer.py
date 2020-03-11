@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 import pathlib
 import argparse
 import datetime
@@ -130,7 +129,7 @@ def pack_ros(args):
     if args.verbosity:
         print('\n\t***Start packing the Directory***\n')
 
-    if not args.version is None:
+    if args.version is not None:
         if args.version == 1:
             current_offset = current_offset + ros_header_v1.HEADER_SIZE
         if args.version == 2:
@@ -148,12 +147,12 @@ def pack_ros(args):
         binary = i.read_bytes()
 
         # create LZMA Subheader if necessary
-        if binary[0:2] == (93).to_bytes(2, byteorder='little'):
+        if binary[0:2] == (93).to_bytes(2, byteorder='little'): #check if LZMA-magic is there
             if args.verbosity:
                 print('{} looks like a LZMA archive!\ncreate Subheader for it...'.format(i.name))
-            tmp_lzma_subheader = ros_lzma_subheader(time.second, time.minute, time.hour, time.day, time.month,
-                                                    time.year, binary[5:9])
-            if not args.mirror is None:  # mirror if necessary
+            tmp_lzma_subheader = ros_lzma_subheader(time.second, time.minute, time.hour, time.day, time.month, time.year, binary[5:9])
+
+            if args.mirror is not None:  # mirror if necessary
                 if args.verbosity:
                     print('looking for subheader to mirror...')
                 tmp_lzma_subheader = analize_lzma_subheader(args, i.name, tmp_lzma_subheader)
@@ -164,8 +163,8 @@ def pack_ros(args):
             print('Creating Payload Header...')
 
         tmp_payload_header = ros_payload_header(i, len(binary), current_offset)
-        # mirror if necessary
-        if args.mirror is not None:
+
+        if args.mirror is not None: # mirror if necessary
             tmp_payload_header = analize_payloadheader(args, tmp_payload_header)
 
         stack.insert(0, (tmp_payload_header, binary))
@@ -174,7 +173,7 @@ def pack_ros(args):
             print('Calculating partial checksum...\n')
         payload_checksum = payload_checksum + sum(stack[0][0].get_bytes()) + sum(stack[0][1])
 
-    if not args.version is None:
+    if args.version is not None:
         if args.version == 1:
             if args.verbosity:
                 print('Creating Header Version 1')
@@ -192,7 +191,7 @@ def pack_ros(args):
             header.calc_checksums()
             stack.insert(0, header)
 
-    if not args.mirror is None:
+    if args.mirror is not None:
         data = analize_ros(args, args.mirror.read_bytes())
 
         if data[0]:
