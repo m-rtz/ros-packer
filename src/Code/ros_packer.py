@@ -98,8 +98,8 @@ def analize_payloadheader(args, payloadheader):
     for i in range(0, 60):
         if ros_binary[i * 16: (i * 16) + 16] == payloadheader.get_name():
             if args.verbosity:
-                print('Update unknown in payload header')
-            payloadheader.set_unknown(ros_binary[i * 16 + 16 + 8: (i * 16) + 16 + 16])
+                print('Update unknowns in payload header')
+            payloadheader.set_unknown(ros_binary[(i * 16) + 16 + 8: (i * 16) + 16 + 16])
     return payloadheader
 
 
@@ -172,6 +172,7 @@ def pack_ros(args):
         if args.verbosity:
             print('Calculating partial checksum...\n')
         payload_checksum = payload_checksum + sum(stack[0][0].get_bytes()) + sum(stack[0][1])
+        print('current payload checksum: {}'.format(payload_checksum))
 
     if args.version is not None:
         if args.version == 1:
@@ -205,7 +206,7 @@ def pack_ros(args):
         else:
             header = ros_header_v2(current_offset + 32, dir_entries, time.second,
                                    time.minute, time.hour, time.day, time.month, time.year,
-                                   current_offset, payload_checksum)
+                                   current_offset -ros_header_v2.HEADER_SIZE, payload_checksum)
             header.set_timestamp(data[1]['time'])
             header.set_unknown1(data[1]['unknown1'])
             header.set_unknown2(data[1]['unknown2'])

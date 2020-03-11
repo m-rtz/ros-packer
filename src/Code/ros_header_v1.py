@@ -37,7 +37,7 @@ class ros_header_v1:
         self.ARC_MAGIC = arc_magic
 
     def set_unknown1(self, unknown1):
-        self.UNKOWN1 = unknown1
+        self.UNKNOWN1 = unknown1
         return True
 
     def set_unknown2(self, unknown2):

@@ -49,6 +49,6 @@ class TestInputParameters(unittest.TestCase):
 class TestROSStructure(unittest.TestCase):
     def test_ros_structure(self):
         # Test mirror file is a ros file
-        args = argparse.Namespace(DIR_TO_PACK=pathlib.WindowsPath('../Test/firmware/LGS300-11021'), mirror=pathlib.WindowsPath('../Code/ros_packer.py'), output=pathlib.WindowsPath('container.ros'), verbosity=False, version=None)
+        args = argparse.Namespace(DIR_TO_PACK=pathlib.Path('../Test/firmware/LGS300-11021'), mirror=pathlib.Path('../Code/ros_packer.py'), output=pathlib.Path('container.ros'), verbosity=False, version=None)
         return_val = ros_packer.check_ros(args)
         self.assertFalse(return_val)
