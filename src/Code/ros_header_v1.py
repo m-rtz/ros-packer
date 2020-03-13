@@ -1,7 +1,6 @@
 import struct
 
 
-
 class ros_header_v1:
     """Header structure of a ros file. Total 32 Byte in little endian.
 
@@ -23,8 +22,10 @@ class ros_header_v1:
     UNKNOWN2 = struct.pack('<III', 0, 0, 0)  # 12 Bytes
     UNKNOWN_TIME = 0
 
-    def __init__(self, time_stamp_sec, time_stamp_min, time_stamp_hour, time_stamp_day, time_stamp_month, time_stamp_year, dir_entries, length, checksum):
-        self.time_stamp = struct.pack('<6Bh', time_stamp_sec, time_stamp_min, time_stamp_hour, self.UNKNOWN_TIME, time_stamp_day, time_stamp_month, time_stamp_year )  # 8 Bytes
+    def __init__(self, time_stamp_sec, time_stamp_min, time_stamp_hour, time_stamp_day, time_stamp_month,
+                 time_stamp_year, dir_entries, length, checksum):
+        self.time_stamp = struct.pack('<6Bh', time_stamp_sec, time_stamp_min, time_stamp_hour, self.UNKNOWN_TIME,
+                                      time_stamp_day, time_stamp_month, time_stamp_year)  # 8 Bytes
         self.dir_entries = struct.pack('<I', dir_entries)  # 4 Bytes
         self.length = struct.pack('<I', length)  # 4 Bytes without this header
         self.checksum = struct.pack('<I', checksum)  # 4 Bytes

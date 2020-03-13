@@ -16,7 +16,8 @@ def check_input(args):
 
     if args.verbosity:
         print(
-            '\n\t***Start checking the Arguments***\ngiven directory: {}\ngiven output {}\nmirror file: {}\nselected header version: {}\n'.format(
+            '\n\t***Start checking the Arguments***\ngiven directory: {}\ngiven output {}\nmirror file: {}\nselected '
+            'header version: {}\n'.format(
                 args.DIR_TO_PACK, args.output, args.mirror, args.version))
 
     if not args.DIR_TO_PACK.exists():
@@ -147,10 +148,11 @@ def pack_ros(args):
         binary = i.read_bytes()
 
         # create LZMA Subheader if necessary
-        if binary[0:2] == (93).to_bytes(2, byteorder='little'): #check if LZMA-magic is there
+        if binary[0:2] == (93).to_bytes(2, byteorder='little'):  # check if LZMA-magic is there
             if args.verbosity:
                 print('{} looks like a LZMA archive!\ncreate Subheader for it...'.format(i.name))
-            tmp_lzma_subheader = ros_lzma_subheader(time.second, time.minute, time.hour, time.day, time.month, time.year, binary[5:9])
+            tmp_lzma_subheader = ros_lzma_subheader(time.second, time.minute, time.hour, time.day, time.month,
+                                                    time.year, binary[5:9])
 
             if args.mirror is not None:  # mirror if necessary
                 if args.verbosity:
@@ -164,7 +166,7 @@ def pack_ros(args):
 
         tmp_payload_header = ros_payload_header(i, len(binary), current_offset)
 
-        if args.mirror is not None: # mirror if necessary
+        if args.mirror is not None:  # mirror if necessary
             tmp_payload_header = analize_payloadheader(args, tmp_payload_header)
 
         stack.insert(0, (tmp_payload_header, binary))
@@ -206,7 +208,7 @@ def pack_ros(args):
         else:
             header = ros_header_v2(current_offset + 32, dir_entries, time.second,
                                    time.minute, time.hour, time.day, time.month, time.year,
-                                   current_offset -ros_header_v2.HEADER_SIZE, payload_checksum)
+                                   current_offset - ros_header_v2.HEADER_SIZE, payload_checksum)
             header.set_timestamp(data[1]['time'])
             header.set_unknown1(data[1]['unknown1'])
             header.set_unknown2(data[1]['unknown2'])
