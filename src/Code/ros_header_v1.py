@@ -2,17 +2,17 @@ import struct
 
 
 class ros_header_v1:
-    """Header structure of a ros file. Total 32 Byte in little endian.
+    """Header structure of a ros file. Total 48 Byte in little endian. LENGTH describes the length of the ros container
+    without this header.
 
     0           1           2           3           4
     0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6
     | ARC_MAGIC | ARC_INDEX |     TIME STAMP        |
     -------------------------------------------------
-    | LENGTH    |CHECKSUM   | SIGNATURE  |  UNKNOWN1|
+    |  LENGTH   |  CHECKSUM | SIGNATURE  | UNKNOWN1 |
     -------------------------------------------------
-    |DIR_ENTRIES|               UNKNOWN 2           |
+    |DIR_ENTRIES|            UNKNOWN 2              |
     -------------------------------------------------
-
     """
     HEADER_SIZE = 48
     SIGNATURE = struct.pack('4s', 'PACK'.encode('ascii'))  # 4 Bytes
@@ -46,6 +46,5 @@ class ros_header_v1:
         return True
 
     def get_bytes(self):
-        # Check if 48 Byte
         header = self.ARC_MAGIC + self.ARC_INDEX + self.time_stamp + self.length + self.checksum + self.SIGNATURE + self.UNKNOWN1 + self.dir_entries + self.UNKNOWN2
         return header

@@ -16,8 +16,8 @@ def check_input(args):
 
     if args.verbosity:
         print(
-            '\n\t***Start checking the Arguments***\ngiven directory: {}\ngiven output {}\nmirror file: {}\nselected '
-            'header version: {}\n'.format(
+            '\nChecking Arguments:\ngiven directory: {}\ngiven output {}\nmirror file: {}\nselected '
+            'header version: {}'.format(
                 args.DIR_TO_PACK, args.output, args.mirror, args.version))
 
     if not args.DIR_TO_PACK.exists():
@@ -46,43 +46,37 @@ def check_input(args):
             return False
 
     if args.mirror is None and args.version is None:
-        print('Error: No Headerversion and no Mirror file!')
+        print('Error: No header version and no mirror file!')
         return False
 
     return True
 
 
 def check_ros(args):
-    """Checks if a given file matches ROS-file characteristcs and returns False if not"""
+    """Checks if a given file matches ROS-file characteristics and returns False if not"""
+
     ros_binary = args.mirror.read_bytes()
     if not ros_binary[24:28] == ros_header_v1.SIGNATURE:
-        print('{} does not have "PACK" at 0x18'.format(args.mirror.name))
+        print('{} does not have "PACK" at 0x18, sure it is a ros file?'.format(args.mirror.name))
         return False
 
     if not (ros_binary[4:8] == ros_header_v1.ARC_INDEX or ros_binary[4:8] == ros_header_v2.ARC_INDEX):
-        print('does not have a valid version index')
+        print('does not have a valid version index, sure it is a ros file?')
         return False
 
     return True
 
 
 def analize_ros(args, ros_binary):
-    """Determines the Headerversion of a ROS-file and returns unknowns and timestamps."""
+    """Determines the header version of a ROS-file and returns unknowns and timestamps."""
 
     if ros_binary[4:8] == ros_header_v1.ARC_INDEX:
-        if args.verbosity:
-            print('looks like Header version 1')
         is_version1 = True
 
     elif ros_binary[4:8] == ros_header_v2.ARC_INDEX:
-        if args.verbosity:
-            print('looks like Header Version 2')
         is_version1 = False
     else:
         print('does not have a valid version index')
-
-    if args.verbosity:
-        print('Start collecting data...')
 
     if is_version1:
         data = {'time': ros_binary[8:15], 'unknown1': ros_binary[28:32], 'unknown2': ros_binary[37:49]}
@@ -90,11 +84,13 @@ def analize_ros(args, ros_binary):
     else:
         data = {'unknown1': ros_binary[29:33], 'unknown2': ros_binary[36:40], 'time': ros_binary[40:48],
                 'unknown3': ros_binary[56:64], 'version': ros_binary[64:80]}
+
     return is_version1, data
 
 
 def analize_payloadheader(args, payloadheader):
-    """Inserts unknowns in Payloadheader"""
+    """Inserts unknowns in payload header"""
+
     ros_binary = args.mirror.read_bytes()
     for i in range(0, 60):
         if ros_binary[i * 16: (i * 16) + 16] == payloadheader.get_name():
@@ -105,7 +101,8 @@ def analize_payloadheader(args, payloadheader):
 
 
 def analize_lzma_subheader(args, name, tmp_header):
-    """Inserts unknowns and timestamp in LZMA-Subheader."""
+    """Inserts unknowns and timestamp in LZMA-subheader."""
+
     binary = args.mirror.read_bytes()
     name_len = len(name.encode('ascii'))
     for i in range(0, 60):
@@ -128,7 +125,7 @@ def pack_ros(args):
     time = datetime.datetime.today()
 
     if args.verbosity:
-        print('\n\t***Start packing the Directory***\n')
+        print('\nStart packing:')
 
     if args.version is not None:
         if args.version == 1:
@@ -144,25 +141,25 @@ def pack_ros(args):
 
     for i in args.DIR_TO_PACK.glob('*'):
         if args.verbosity:
-            print('File: {}'.format(i.name))
+            print('\nFile: {}'.format(i.name))
         binary = i.read_bytes()
 
-        # create LZMA Subheader if necessary
+        # create LZMA subheader if necessary
         if binary[0:2] == (93).to_bytes(2, byteorder='little'):  # check if LZMA-magic is there
             if args.verbosity:
-                print('{} looks like a LZMA archive!\ncreate Subheader for it...'.format(i.name))
+                print('{} looks like a LZMA archive! creating subheader'.format(i.name))
             tmp_lzma_subheader = ros_lzma_subheader(time.second, time.minute, time.hour, time.day, time.month,
                                                     time.year, binary[5:9])
 
             if args.mirror is not None:  # mirror if necessary
                 if args.verbosity:
-                    print('looking for subheader to mirror...')
+                    print('mirroring subheader')
                 tmp_lzma_subheader = analize_lzma_subheader(args, i.name, tmp_lzma_subheader)
 
             binary = tmp_lzma_subheader.get_bytes() + binary
 
         if args.verbosity:
-            print('Creating Payload Header...')
+            print('creating payload header')
 
         tmp_payload_header = ros_payload_header(i, len(binary), current_offset)
 
@@ -172,14 +169,13 @@ def pack_ros(args):
         stack.insert(0, (tmp_payload_header, binary))
         current_offset = current_offset + len(stack[0][1])
         if args.verbosity:
-            print('Calculating partial checksum...\n')
+            print('calculating partial checksum')
         payload_checksum = payload_checksum + sum(stack[0][0].get_bytes()) + sum(stack[0][1])
-        print('current payload checksum: {}'.format(payload_checksum))
 
     if args.version is not None:
         if args.version == 1:
             if args.verbosity:
-                print('Creating Header Version 1')
+                print('creating header version 1')
             header = ros_header_v1(time.second, time.minute, time.hour, time.day, time.month, time.year,
                                    dir_entries, current_offset - ros_header_v1.HEADER_SIZE, payload_checksum)
 
@@ -187,7 +183,7 @@ def pack_ros(args):
 
         else:
             if args.verbosity:
-                print('Creating Header Version 2')
+                print('creating header version 2')
             header = ros_header_v2(current_offset + 32, dir_entries, time.second,
                                    time.minute, time.hour, time.day, time.month, time.year,
                                    current_offset - ros_header_v2.HEADER_SIZE, payload_checksum)
@@ -222,23 +218,24 @@ def pack_ros(args):
 
 def write_ros(args, stack):
     """Writes a given ROS-structure to one single file."""
+
     if args.verbosity:
-        print('\n\t***Starting writing ros file***\n')
+        print('\nStart writing')
 
     file = open(args.output.name, 'xb')
 
     if args.verbosity:
-        print('write Header')
+        print('write header')
     file.write(stack[0].get_bytes())
 
     if args.verbosity:
-        print('write Payloadheader')
+        print('write payload header')
     for i in reversed(stack):
         if type(i) is tuple:
             file.write(i[0].get_bytes())
 
     if args.verbosity:
-        print('write Payload data')
+        print('write payload data\ndone.')
     for i in reversed(stack):
         if type(i) is tuple:
             file.write(i[1])
@@ -249,14 +246,13 @@ def write_ros(args, stack):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='An (hopefully) simple and robust ros packer. Should be intuitive, '
-                                                 'so just try throwing some directories at it.')
+    parser = argparse.ArgumentParser(description='A simple packer for the ros firmmware container format.')
     parser.add_argument('-v', '--verbosity', help='increase output verbosity', action='store_true')
     parser.add_argument('-o', '--output', type=pathlib.Path, default=pathlib.Path('container.ros'),
                         help='name your output')
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-m', '--mirror', type=pathlib.Path,
-                       help='ROS-file to mirror. This will help determine the header version')
+                       help='ros-file to mirror. This will help determine the header version')
     group.add_argument('-V', '--version', type=int, choices=[1, 2], help='select header version 1 or header version 2')
     parser.add_argument('DIR_TO_PACK', type=pathlib.Path, help='location of the unpacked ros structure.')
     args = parser.parse_args()

@@ -2,11 +2,13 @@ import struct
 from ros_header_v1 import ros_header_v1
 
 
-
-
 class ros_header_v2(ros_header_v1):
     """
-    Structure of a ROS-Header in Version 2.
+    Header structure of a ros file in version 2. Total 80 Byte in little endian.
+    LENGTH describes the length of the ros container
+    HEADER CHECKSUM is FFFFFFFF - byte sum.
+    LENGTH1 is the length of the ros container without this header and CHECKSUM1 the byte sum of this scope.
+    PAYLOAD_LENGTH is the length of the payloads including LZMA-Subheaders and PAYLOAD_CHECKSUM the byte sum of this scope
 
     0           1           2           3           4           5           6           7
     0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1
@@ -17,12 +19,9 @@ class ros_header_v2(ros_header_v1):
     ----------------------------------------------------------------------------------------------
     |FIRMWARE VERSION                               |
     ------------------------------------------------
-
-
     """
 
     HEADER_SIZE = 80
-    UNKNOWN_TIME = 0
     ARC_INDEX = struct.pack('4s', '2.00'.encode('ascii'))
     ARC_MAGIC = struct.pack('4s', 'BL01'.encode('ascii'))  # 4 Bytes
     HEADER_LENGTH = struct.pack('<I', HEADER_SIZE)

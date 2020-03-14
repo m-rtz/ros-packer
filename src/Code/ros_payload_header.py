@@ -2,7 +2,7 @@ import struct
 
 
 class ros_payload_header:
-    """Structure of the header of each payload file. All little endian.
+    """Structure of the header of each payload. Total 32 byte in little endian.
 
     0           1           2           3           4
     0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6
@@ -18,7 +18,7 @@ class ros_payload_header:
     def __init__(self, path, length, offset):
         self.name = struct.pack('16s', path.name.encode('ascii'))  # 16 Byte
         self.offset = struct.pack('<L', offset)  # 4 Byte
-        self.length = struct.pack('<L', length)  # 4 Bytes
+        self.length = struct.pack('<L', length)  # 4 Byte
 
     def set_unknown(self, unknown):
         self.UNKNOWN = unknown
