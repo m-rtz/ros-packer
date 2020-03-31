@@ -1,8 +1,8 @@
 import struct
-from ros_header_v1 import ros_header_v1
+from ros_packer.rosheaderv1 import RosHeaderV1
 
 
-class ros_lzma_subheader(ros_header_v1):
+class RosLzmaSubheader(RosHeaderV1):
     """Structure of the header of each payload file. Total 32 byte in little endian except time stamp year.
     SIZE can be found at 0x05 of the payload and describes the length of the uncompressed LZMA payload.
 

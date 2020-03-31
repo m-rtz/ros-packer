@@ -1,7 +1,7 @@
 import struct
 
 
-class ros_header_v1:
+class RosHeaderV1:
     """Header structure of a ros file. Total 48 Byte in little endian. LENGTH describes the length of the ros container
     without this header.
 

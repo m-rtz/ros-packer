@@ -1,7 +1,7 @@
 import struct
 
 
-class ros_payload_header:
+class RosPayloadHeader:
     """Structure of the header of each payload. Total 32 byte in little endian.
 
     0           1           2           3           4
