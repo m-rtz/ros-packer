@@ -1,8 +1,8 @@
 import struct
-from ros_header_v1 import ros_header_v1
+from ros_packer.ros_header_v1 import RosHeaderV1
 
 
-class ros_header_v2(ros_header_v1):
+class RosHeaderV2(RosHeaderV1):
     """
     Header structure of a ros file in version 2. Total 80 Byte in little endian.
     LENGTH describes the length of the ros container
