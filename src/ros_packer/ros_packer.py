@@ -3,10 +3,10 @@ import pathlib
 import struct
 from typing import List, Union, Tuple, Dict
 
-from ros_packer.rosheaderv1 import RosHeaderV1
-from ros_packer.rosheaderv2 import RosHeaderV2
-from ros_packer.roslzmasubheader import RosLzmaSubheader
-from ros_packer.rospayloadheader import RosPayloadHeader
+from ros_packer.ros_header_v1 import RosHeaderV1
+from ros_packer.ros_header_v2 import RosHeaderV2
+from ros_packer.ros_lzma_subheader import RosLzmaSubheader
+from ros_packer.ros_payload_header import RosPayloadHeader
 
 
 def check_ros(mirror_file: pathlib.Path) -> bool:

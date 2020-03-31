@@ -1,5 +1,5 @@
 import struct
-from ros_packer.rosheaderv1 import RosHeaderV1
+from ros_packer.ros_header_v1 import RosHeaderV1
 
 
 class RosLzmaSubheader(RosHeaderV1):
