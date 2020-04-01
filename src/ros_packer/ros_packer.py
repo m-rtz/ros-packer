@@ -72,6 +72,72 @@ def analyze_lzma_subheader(mirror_file: pathlib.Path, name: str, tmp_header: Ros
             tmp_header.set_unknown2(binary[offset + 24:offset + 32])
 
 
+def init_packing(offset: int, version: int, mirror_file: pathlib.Path) -> int:
+    """
+    Adds the header length to a given offset.
+    """
+
+    if version is not None:
+        if version == 1:
+            offset = offset + RosHeaderV1.HEADER_SIZE
+        if version == 2:
+            offset = offset + RosHeaderV2.HEADER_SIZE
+
+    if mirror_file and mirror_file.is_file():
+        if analyze_ros(mirror_file.read_bytes())[0]:
+            offset = offset + RosHeaderV1.HEADER_SIZE
+        if not analyze_ros(mirror_file.read_bytes())[0]:
+            offset = offset + RosHeaderV2.HEADER_SIZE
+
+    return offset
+
+
+def create_header(source_directory: pathlib.Path, mirror_file: pathlib.Path, verbose: bool, version: int, offset: int, payload_checksum: int) -> Union[RosHeaderV1, RosHeaderV2]:
+    """
+    Creates the header including mirroring, if selected.
+    """
+    dir_entries = sum(1 for x in source_directory.iterdir())
+    time = datetime.datetime.today()
+
+    if version is not None:
+        if version == 1:
+            if verbose:
+                print('creating header version 1')
+            header = RosHeaderV1(time.second, time.minute, time.hour, time.day, time.month, time.year,
+                                 dir_entries, offset - RosHeaderV1.HEADER_SIZE, payload_checksum)
+
+        else:
+            if verbose:
+                print('creating header version 2')
+            header = RosHeaderV2(offset + 32, dir_entries, time.second,
+                                 time.minute, time.hour, time.day, time.month, time.year,
+                                 offset - RosHeaderV2.HEADER_SIZE, payload_checksum)
+            header.calc_checksums()
+
+    if mirror_file and mirror_file.is_file():
+        data = analyze_ros(mirror_file.read_bytes())
+
+        if data[0]:
+            header = RosHeaderV1(time.second, time.minute, time.hour, time.day, time.month, time.year,
+                                 dir_entries, offset - RosHeaderV1.HEADER_SIZE, payload_checksum)
+            header.set_timestamp(data[1]['time'])
+            header.set_unknown1(data[1]['unknown1'])
+            header.set_unknown2(data[1]['unknown2'])
+
+        else:
+            header = RosHeaderV2(offset + 32, dir_entries, time.second,
+                                 time.minute, time.hour, time.day, time.month, time.year,
+                                 offset - RosHeaderV2.HEADER_SIZE, payload_checksum)
+            header.set_timestamp(data[1]['time'])
+            header.set_unknown1(data[1]['unknown1'])
+            header.set_unknown2(data[1]['unknown2'])
+            header.set_unknown3(data[1]['unknown3'])
+            header.set_version(data[1]['version'])
+            header.calc_checksums()
+
+    return header
+
+
 def pack_ros(source_directory: pathlib.Path, mirror_file: pathlib.Path, verbose: bool, version: int) -> List[Union[Union[RosPayloadHeader, RosHeaderV1], Tuple[Union[RosPayloadHeader, RosHeaderV1], bytes]]]:
     """
     Packs the content in on one single ros-file
@@ -85,19 +151,9 @@ def pack_ros(source_directory: pathlib.Path, mirror_file: pathlib.Path, verbose:
     if verbose:
         print('\nStart packing:')
 
-    if version is not None:
-        if version == 1:
-            current_offset = current_offset + RosHeaderV1.HEADER_SIZE
-        if version == 2:
-            current_offset = current_offset + RosHeaderV2.HEADER_SIZE
+    current_offset = init_packing(current_offset, version, mirror_file)
 
-    if mirror_file and mirror_file.is_file():
-        if analyze_ros(mirror_file.read_bytes())[0]:
-            current_offset = current_offset + RosHeaderV1.HEADER_SIZE
-        if not analyze_ros(mirror_file.read_bytes())[0]:
-            current_offset = current_offset + RosHeaderV2.HEADER_SIZE
-
-    for i in source_directory.glob('*'):
+    for i in source_directory.iterdir():
         if verbose:
             print('\nFile: {}'.format(i.name))
         binary = i.read_bytes()
@@ -130,46 +186,7 @@ def pack_ros(source_directory: pathlib.Path, mirror_file: pathlib.Path, verbose:
             print('calculating partial checksum')
         payload_checksum = payload_checksum + sum(stack[0][0].get_bytes()) + sum(stack[0][1])
 
-    if version is not None:
-        if version == 1:
-            if verbose:
-                print('creating header version 1')
-            header = RosHeaderV1(time.second, time.minute, time.hour, time.day, time.month, time.year,
-                                 dir_entries, current_offset - RosHeaderV1.HEADER_SIZE, payload_checksum)
-
-            stack.insert(0, header)
-
-        else:
-            if verbose:
-                print('creating header version 2')
-            header = RosHeaderV2(current_offset + 32, dir_entries, time.second,
-                                 time.minute, time.hour, time.day, time.month, time.year,
-                                 current_offset - RosHeaderV2.HEADER_SIZE, payload_checksum)
-            header.calc_checksums()
-            stack.insert(0, header)
-
-    if mirror_file and mirror_file.is_file():
-        data = analyze_ros(mirror_file.read_bytes())
-
-        if data[0]:
-            header = RosHeaderV1(time.second, time.minute, time.hour, time.day, time.month, time.year,
-                                 dir_entries, current_offset - RosHeaderV1.HEADER_SIZE, payload_checksum)
-            header.set_timestamp(data[1]['time'])
-            header.set_unknown1(data[1]['unknown1'])
-            header.set_unknown2(data[1]['unknown2'])
-            stack.insert(0, header)
-
-        else:
-            header = RosHeaderV2(current_offset + 32, dir_entries, time.second,
-                                 time.minute, time.hour, time.day, time.month, time.year,
-                                 current_offset - RosHeaderV2.HEADER_SIZE, payload_checksum)
-            header.set_timestamp(data[1]['time'])
-            header.set_unknown1(data[1]['unknown1'])
-            header.set_unknown2(data[1]['unknown2'])
-            header.set_unknown3(data[1]['unknown3'])
-            header.set_version(data[1]['version'])
-            header.calc_checksums()
-            stack.insert(0, header)
+    stack.insert(0, create_header(source_directory, mirror_file, verbose, version, current_offset, payload_checksum))
 
     return stack
 
