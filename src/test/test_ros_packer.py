@@ -1,6 +1,7 @@
 from pathlib import Path
 import subprocess
 from tempfile import TemporaryDirectory
+from hashlib import sha3_512
 
 import pytest
 
@@ -31,3 +32,9 @@ def test_check_input_empty_directory():
 def test_ros_structure():
     assert not check_ros(mirror_file=Path(__file__).parent.parent / 'ros_packer/ros_packer.py')
     assert check_ros(mirror_file=Path(__file__).parent / 'firmware/test_container.ros')
+
+def test_output():
+    assert subprocess.call(ROS_PACK + ['-m', 'test/firmware/test_container.ros', '-o', 'tmp_container.ros',  'test/firmware/Test_container']) == 0
+
+    ## TO DO: checksum comp of worked file
+

@@ -6,7 +6,7 @@ import argparse
 from ros_packer.ros_packer import check_ros, pack_ros, write_ros
 
 
-def check_arguments(arguments):
+def check_arguments(arguments: argparse.Namespace) -> bool:
     """
     Checking arguments and returns False if: DIR_TO_PACK does not exists, is no directory, is empty, OUTPUT
     already exists, MIRROR already exists or is no file; VERSION and MIRROR is set or neither.
@@ -26,7 +26,7 @@ def check_arguments(arguments):
         print('Error: {} is not a directory!'.format(arguments.DIR_TO_PACK.name))
         return False
 
-    if not list(arguments.DIR_TO_PACK.glob('*')):
+    if not list(arguments.DIR_TO_PACK.iterdir()):
         print('Error: {} is empty!'.format(arguments.DIR_TO_PACK.name))
         return False
 
@@ -50,7 +50,8 @@ def check_arguments(arguments):
     return True
 
 
-def setup_arguments():
+def setup_arguments() -> argparse.Namespace:
+
     parser = argparse.ArgumentParser(description='A simple packer for the ros firmmware container format.')
     parser.add_argument('-v', '--verbosity', help='increase output verbosity', action='store_true')
     parser.add_argument('-o', '--output', type=pathlib.Path, default=pathlib.Path('container.ros'),
@@ -61,6 +62,7 @@ def setup_arguments():
     group.add_argument('-V', '--version', type=int, choices=[1, 2], help='select header version 1 or header version 2')
     parser.add_argument('DIR_TO_PACK', type=pathlib.Path, help='location of the unpacked ros structure.')
     args = parser.parse_args()
+
     return args
 
 
