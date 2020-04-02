@@ -35,6 +35,5 @@ def test_ros_structure():
 
 def test_output():
     assert subprocess.call(ROS_PACK + ['-m', 'test/firmware/test_container.ros', '-o', 'tmp_container.ros',  'test/firmware/Test_container']) == 0
-
-    ## TO DO: checksum comp of worked file
+    assert sha3_512(open("test/firmware/test_container.ros", "rb").read()).hexdigest() == sha3_512(open("tmp_container.ros", "rb").read()).hexdigest()
 

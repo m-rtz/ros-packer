@@ -41,7 +41,7 @@ def analyze_ros(ros_binary: bytes) -> Tuple[bool, Dict[str, bytes]]:
         data = {'time': ros_binary[8:15], 'unknown1': ros_binary[28:32], 'unknown2': ros_binary[37:49]}
 
     else:
-        data = {'unknown1': ros_binary[29:33], 'unknown2': ros_binary[36:40], 'time': ros_binary[40:48],
+        data = {'unknown1': ros_binary[28:32], 'unknown2': ros_binary[36:40], 'time': ros_binary[40:48],
                 'unknown3': ros_binary[56:64], 'version': ros_binary[64:80]}
 
     return is_version1, data
