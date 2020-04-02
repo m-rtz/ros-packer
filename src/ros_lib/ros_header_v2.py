@@ -1,5 +1,5 @@
 import struct
-from ros_packer.ros_header_v1 import RosHeaderV1
+from ros_lib.ros_header_v1 import RosHeaderV1
 
 
 class RosHeaderV2(RosHeaderV1):

@@ -3,7 +3,7 @@
 import pathlib
 import argparse
 
-from ros_packer.ros_packer import check_ros, pack_ros, write_ros
+from ros_lib.ros_pack import check_ros, pack_ros, write_ros
 
 
 def check_arguments(arguments: argparse.Namespace) -> bool:

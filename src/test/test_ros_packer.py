@@ -5,9 +5,9 @@ from hashlib import sha3_512
 
 import pytest
 
-from ros_packer.ros_packer import check_ros
+from ros_lib.ros_pack import check_ros
 
-ROS_PACK = [str(Path(__file__).parent.parent / 'ros_pack.py'), ]
+ROS_PACK = [str(Path(__file__).parent.parent / 'ros_packer.py'), ]
 THIS_FILE = '{}'.format(Path(__file__).absolute())
 
 
@@ -30,7 +30,7 @@ def test_check_input_empty_directory():
 
 
 def test_ros_structure():
-    assert not check_ros(mirror_file=Path(__file__).parent.parent / 'ros_packer/ros_packer.py')
+    assert not check_ros(mirror_file=Path(__file__).parent.parent / 'ros_lib/ros_pack.py')
     assert check_ros(mirror_file=Path(__file__).parent / 'firmware/test_container.ros')
 
 def test_output():
