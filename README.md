@@ -4,20 +4,20 @@ Packer for the ros firmware container format
 
 ## Description
 
-This Python project is the inversion of [ros_pack](https://github.com/iam-TJ/ros_pack "Iam-TJ's ros_pack") written by Iam-TJ. Unfortunately, his project is not beeing maintained anymore.
-The state of the given reverse engineering has not beeing touched, but **ros_packer** supports mirroring for copying unknown Bytes.
+This Python project is the inversion of [ros_pack](https://github.com/iam-TJ/ros_pack "Iam-TJ's ros_pack") written by Iam-TJ. Unfortunately, his project is not being maintained anymore.
+The state of the given reverse engineering has not being touched, but **ros_packer** supports mirroring for copying unknown Bytes.
 
-This project was developt in conjunction with the [Fraunhofer FKIE Institute](https://www.fkie.fraunhofer.de/) within a firmware security project group.
+This project was developed in conjunction with the [Fraunhofer FKIE Institute](https://www.fkie.fraunhofer.de/) within a firmware security lab.
 
 ## What is ROS?
 
-`*.ros`-files are commonly used as Firmware-format on routers, switches etc. They are also used as firmware upgrade media and usually carry the whole software on such devices. The structure of a `*.ros`-file consists of serveral payloads, that come with headers and subheaders.
+`*.ros`-files are commonly used as Firmware-format on routers, switches etc. They are also used as firmware upgrade media and usually carry the whole software on such devices. The structure of a `*.ros`-file consists of several payloads, that come with headers and subheaders.
 
 
 ## Features
 
-**ros-packer** has two major ways to use: 
-**A**: you can define which header version (Version 1 or 2) is beeing used during the packing process. 
+**ros-packer** has two major ways to use:  
+**A**: you can define which header version (Version 1 or 2) is being used during the packing process.  
 **B**: you can use a ros-file as reference. This auto detects the header version and copies unknown bytes.
 
 *  supports two header versions
